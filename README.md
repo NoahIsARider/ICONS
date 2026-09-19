@@ -24,6 +24,19 @@ Every icon and portrait is generated for the game. The 27 icons are individual 5
 
 ![Twenty-four artist portraits](screenshots/10-artist-portraits.jpg)
 
+## Strategy and balance
+
+The rules take one game to learn, but the economics are not obvious — so both are written down
+and measured rather than guessed at:
+
+- **[docs/STRATEGY.md](docs/STRATEGY.md)** — what actually wins: the three income loops, how much
+  a computer can bid for a lot, and which habits are load-bearing.
+- **[docs/BALANCE.md](docs/BALANCE.md)** — the audit behind it, including the one fairness flaw it
+  turned up (the first seat wins about twice its fair share) and the verified fix.
+
+Both are reproducible: `node tools/strategy-lab.mjs all 400` replays every experiment against the
+engine, so a rules change can be re-measured instead of argued about.
+
 ## Play
 
 **Windows:** double-click `PLAY.cmd`. Keep its terminal window open while playing.
@@ -70,7 +83,9 @@ Use the **I'M READY** screen when passing the device to another human player. Au
 - `electron-main.cjs`, `electron-preload.cjs`: desktop shell and its save bridge.
 - `test/game.test.mjs`: complete-game and rule tests; run with `node --test`.
 - `tools/desktop-validate.py`: launches a packaged build and verifies the standalone save channel.
+- `tools/strategy-lab.mjs`: the seeded-game experiments behind `docs/STRATEGY.md` and `docs/BALANCE.md`.
 - `tools/capture-screenshots.py`, `tools/build-art-sheets.py`: regenerate the images in `screenshots/`.
+- `docs/STRATEGY.md`, `docs/BALANCE.md`: what wins, and what the measurements say about fairness.
 - `icons/`: 27 individual 512 × 512 transparent PNGs.
 - `portraits/`, `assets/`: artist portraits and table artwork.
 - `screenshots/`: the gallery above, captured from the packaged build.
