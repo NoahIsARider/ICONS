@@ -105,7 +105,7 @@ function setupScreen() {
     <form id="setup-form" class="label-setup"><div class="setup-caption">CHOOSE 2–4 LABELS</div>
       ${[0,1,2,3].map((index)=>`<div class="setup-slot"><span class="slot-number">0${index+1}</span><input name="name${index}" value="${['Your Label','Rival Records','Third Label','Fourth Label'][index]}" maxlength="24" aria-label="Label ${index+1} name"><select name="type${index}" aria-label="Label ${index+1} type"><option value="human" ${index===0?'selected':''}>Human</option><option value="ai" ${index===1?'selected':''}>Computer</option><option value="off" ${index>1?'selected':''}>Off</option></select></div>`).join('')}
       <button class="gold-button start-button" type="submit">ENTER THE STUDIO <span>➜</span></button>
-    </form><nav class="expansion-shelf"><a href="/actor.html"><b>ACTOR AGENCY</b><small>24 NEW ACTORS · FILM SET</small></a><a href="/ensemble.html"><b>DEBUT NIGHT</b><small>COED STAGE · 7 DEBUT SEATS</small></a></nav><div class="title-foot">LOCAL MULTIPLAYER · SOLO VS COMPUTER · AUTOSAVE</div>
+    </form><nav class="expansion-shelf"><a href="./actor.html"><b>ACTOR AGENCY</b><small>24 NEW ACTORS · FILM SET</small></a><a href="./ensemble.html"><b>DEBUT NIGHT</b><small>COED STAGE · 7 DEBUT SEATS</small></a></nav><div class="title-foot">LOCAL MULTIPLAYER · SOLO VS COMPUTER · AUTOSAVE</div>
   </div><div class="title-cards">${['nova','mara','iris','ember'].map((id,i)=>`<div class="title-art" style="--i:${i};background-image:url('portraits/${id}.jpg')"></div>`).join('')}</div></main>`;
 }
 

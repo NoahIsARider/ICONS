@@ -2,6 +2,9 @@
 
 A playable, English-language record label strategy game for 2–4 labels. The source also includes two expansions: **Actor Agency Rivals** and **Debut Night**. Play with friends on one device, or play solo against computer labels. No account or online service is required. Progress saves automatically.
 
+**[▶ Play it in your browser](https://noahisarider.github.io/ICONS/)** — nothing to install, all three
+editions included; progress is kept in the browser.
+
 **[⬇ Download the Windows build](https://github.com/NoahIsARider/ICONS/releases/latest)** — unzip it and run `RecordLabelRivals.exe`. No installer, no Node.js, nothing to compile.
 
 Both expansions ship inside the download below and open from the title screen. The same tree also builds them yourself: `./build-desktop.ps1` stages the runtime files for packaging.
