@@ -64,7 +64,7 @@ promotion, with submissions sealed until everyone has performed. The top three p
 | --- | --- |
 | ![Debut Night title](screenshots/dlc-ensemble-title.jpg) | ![Rehearsal stations](screenshots/dlc-ensemble-game.jpg) |
 
-![Episode results](screenshots/dlc-ensemble-results.jpg)
+
 
 Every card in the game is eligible, so the full cast is forty-eight: the twenty-four singers and
 the twenty-four actors, any of whom can take a debut seat.
