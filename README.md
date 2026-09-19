@@ -44,6 +44,13 @@ Method, Range, Star Power and Box Office.
 | --- | --- |
 | ![Actor Agency title](screenshots/dlc-actor-title.jpg) | ![Casting auction](screenshots/dlc-actor-game.jpg) |
 
+Twenty-seven acting medallions replace the music icons, and all twenty-four actors are the
+original stat blocks with new faces:
+
+![The 27 acting medallions](screenshots/11-actor-agency-icons.jpg)
+
+![The twenty-four actors](screenshots/12-actor-agency-cast.jpg)
+
 ### Debut Night
 
 A five-episode mixed-gender stage season that reuses every card in the game: all 24 singers and
@@ -58,6 +65,11 @@ promotion, with submissions sealed until everyone has performed. The top three p
 | ![Debut Night title](screenshots/dlc-ensemble-title.jpg) | ![Rehearsal stations](screenshots/dlc-ensemble-game.jpg) |
 
 ![Episode results](screenshots/dlc-ensemble-results.jpg)
+
+Every card in the game is eligible, so the full cast is forty-eight: the twenty-four singers and
+the twenty-four actors, any of whom can take a debut seat.
+
+![The forty-eight eligible cards](screenshots/13-debut-night-cast.jpg)
 
 Rules, art files and build steps: [docs/DLC-PLAY.md](docs/DLC-PLAY.md).
 

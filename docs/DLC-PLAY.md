@@ -42,7 +42,9 @@ Performers gain fans from their stage score; the top three receive another 5, 3,
 - `dlc/actor-agency/film-set-table.png` and `dlc/ensemble-debut/debut-stage-table.png`: 1672 × 941 tabletop backgrounds.
 - Both `animation/` directories: source sprite sheets, six individual frames, and playable animated PNGs (`*-animated.png`). The animation files have seven encoded frames because the final frame is held briefly; they were verified with FFprobe.
 
-The `dlc/build-visual-assets.ps1`, `dlc/build-actor-icons.ps1`, and `dlc/build-animation-assets.ps1` scripts regenerate sliced files from source sheets already checked into the project. FFmpeg is required to run the scripts; it is **not** required to play the game.
+The `dlc/build-visual-assets.ps1`, `dlc/build-actor-icons.ps1`, and `dlc/build-animation-assets.ps1` scripts regenerate sliced files from source sheets already checked into the project.
+
+`screenshots/11-actor-agency-icons.jpg`, `12-actor-agency-cast.jpg` and `13-debut-night-cast.jpg` are the contact sheets the README shows; `tools/build-dlc-art-sheets.py` rebuilds all three from the sliced icons and portraits, with the same layout and palette as the base game's sheets in `tools/build-art-sheets.py`. FFmpeg is required to run the scripts; it is **not** required to play the game.
 
 Run `./build-desktop.ps1` before building the Windows executable. It stages only runtime art and code under `desktop-app/`, excluding source sprite sheets and individual animation frames. The local browser server serves both DLC pages directly.
 
