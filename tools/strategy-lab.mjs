@@ -9,10 +9,13 @@
  *   node tools/strategy-lab.mjs bids 1000  # one experiment, more games
  *
  * Experiments
- *   habits   which habits decide games (switch one off at a time)
- *   bids     how much to bid vs one computer and vs three
- *   ceiling  what the computers can possibly bid for a lot
- *   seats    positional fairness: four identical players, only the seat differs
+ *   habits     which habits decide games (switch one off at a time)
+ *   bids       how much to bid vs one computer and vs three
+ *   builds     are several play styles viable, or is one strictly best?
+ *   ceiling    what the computers can possibly bid for a lot
+ *   seats      positional fairness: four identical players, only the seat differs
+ *   reference  what every stat, stage, status and artist is worth (arithmetic)
+ *   tags       how much the four artist tags weigh (strip them and replay)
  */
 import { readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
@@ -364,12 +367,107 @@ async function experimentBuilds(games) {
   console.log('\n  Buying only singers is the trap: vocal costs more and returns less than creativity,\n  which pays through royalties, acclaim and album quality at the same time.');
 }
 
-const EXPERIMENTS = { habits: experimentHabits, bids: experimentBids, builds: experimentBuilds, ceiling: experimentCeiling, seats: experimentSeats };
+/** pure arithmetic from the rules: what each stat, tag and stage is actually worth */
+async function experimentReference() {
+  const { data } = await load();
+  const { artists, starters, venues } = data;
+  const flip = artist => artist.vocal + (artist.tag === 'Vocal Flip' ? 1 : 0);
+  const artpop = artist => artist.creativity + (artist.tag === 'Artpop' ? 1 : 0);
+  const LUCKY = 2 / 3;                                  // 5 or 6 on the show die pays +$2
+  const quality = artist => artpop(artist) + 3.5;       // a quality die averages 3.5
+  const royalty = artist => 1 + Math.floor(quality(artist) / 4);
+  const acclaim = artist => Math.max(1, Math.floor(quality(artist) / 3));
+  const stage = artist => venues.filter(v => !v.tour && v.vocal <= flip(artist)).sort((a, b) => b.pay - a.pay)[0];
+  const payAt = (artist, venue) => venue.pay + Math.floor(flip(artist) / 2) + LUCKY;
+  const soloTour = venues.find(venue => venue.tour);
+  const label = venue => `${venue.name} (v${venue.vocal}+)`;
+
+  console.log('\nEVERY ARTIST IN THE DECK — what they are for (royalty and acclaim average the 1-6 die)\n');
+  console.log('  ' + 'artist'.padEnd(15) + 'v/c/sta'.padEnd(9) + 'tag'.padEnd(12) + 'best stage'.padEnd(23)
+    + '$/show'.padEnd(8) + 'album'.padEnd(16) + 'use them for');
+  for (const artist of [...starters.map(a => ({ ...a, starter: true })), ...artists]) {
+    const venue = stage(artist);
+    const tourPay = payAt(artist, soloTour), venuePay = payAt(artist, venue);
+    const plan = flip(artist) >= 5 ? 'arena performer'
+      : flip(artist) >= 4 ? 'festival performer'
+      : tourPay > venuePay ? `album then solo tour ($${tourPay.toFixed(1)} beats $${venuePay.toFixed(1)})` : 'album performer';
+    const role = [plan];
+    if (artpop(artist) >= 5) role.push('album duty');
+    if (artist.tag === 'Empress') role.push('Grammy ties');
+    console.log('  ' + (artist.name + (artist.starter ? ' *' : '')).padEnd(15)
+      + `${artist.vocal}/${artist.creativity}/${artist.stamina}`.padEnd(9)
+      + artist.tag.padEnd(12)
+      + label(venue).padEnd(23)
+      + ('$' + venuePay.toFixed(1)).padEnd(8)
+      + ('$' + royalty(artist) + '/rd  +' + acclaim(artist) + ' ac').padEnd(16)
+      + role.join(' + '));
+  }
+  console.log('  * starter artist — which one you begin with depends on your seat');
+
+  console.log('\nWHAT ONE POINT OF EACH STAT BUYS\n');
+  console.log('  vocal   best stage the singer unlocks   pay per show');
+  for (let vocal = 1; vocal <= 6; vocal++) {
+    const artist = { vocal, creativity: 0, tag: 'None' };
+    const venue = stage(artist);
+    const note = vocal === 3 ? ' <- night club opens' : vocal === 4 ? ' <- SUMMER FESTIVAL opens (+$4 a show)'
+      : vocal === 5 ? ' <- GRAND ARENA opens (+$3 a show)' : vocal === 6 ? ' <- no new stage, only +$0.5' : '';
+    console.log('  ' + String(vocal).padEnd(8) + label(venue).padEnd(32) + ('$' + payAt(artist, venue).toFixed(1)).padEnd(9) + note);
+  }
+  console.log('\n  creativity          avg quality   royalties   acclaim   note');
+  let previousRoyalty = null;
+  const statLine = (text, artist, note) => console.log('  ' + text.padEnd(20)
+    + quality(artist).toFixed(1).padEnd(14) + ('$' + royalty(artist) + '/round').padEnd(12)
+    + ('+' + acclaim(artist) + ' acclaim').padEnd(10) + note);
+  for (let creativity = 1; creativity <= 6; creativity++) {
+    const plain = { creativity, tag: 'None' };
+    const steps = previousRoyalty !== null && royalty(plain) > previousRoyalty;
+    statLine(String(creativity), plain, steps ? '<- royalty steps up to $' + royalty(plain) + ' a round' : '');
+    previousRoyalty = royalty(plain);
+    if (creativity === 5) statLine('5 + Artpop', { creativity, tag: 'Artpop' }, 'better odds of quality 12 ($4 a round)');
+  }
+  console.log('\n  stamina — an album costs 1 point, a show costs 1 (studio, club) or 2 (festival, arena, tour),');
+  console.log('  and every artist recovers exactly 1 point at the reset. A round that spends more than 1');
+  console.log('  cannot repeat for ever: an album plus an arena show spends 3 and returns 1, so the routine');
+  console.log('  is rotation — spread album and show duty over the roster, or buy Rest & Care (+2 for $2).');
+}
+
+/** how much do the four tags weigh? strip them and replay the reference policy */
+async function experimentTags(games) {
+  const { engine, data } = await load();
+  const habits = habitsFor(engine, data.venues);
+  const TAGS = ['Artpop', 'Vocal Flip', 'Jazz', 'Empress'];
+  const scenarios = [{ label: 'all tags (shipped deck)', strip: [] }]
+    .concat(TAGS.map(tag => ({ label: `no ${tag}`, strip: [tag] })))
+    .concat([{ label: 'no tags at all', strip: TAGS }]);
+  const rows = [];
+  for (const scenario of scenarios) {
+    const restore = [];
+    for (const artist of [...data.starters, ...data.artists]) {
+      if (scenario.strip.includes(artist.tag)) { restore.push([artist, artist.tag]); artist.tag = 'None'; }
+    }
+    const totals = { win: 0, cash: 0, shows: 0, albums: 0 };
+    for (let i = 0; i < games; i++) {
+      const state = playGame(engine, toPolicy(habits), 2000 + i * 5167, [false, true, true, true]);
+      const me = state.players[0];
+      totals.win += state.winnerIds.includes(0) ? 1 : 0;
+      totals.cash += me.money; totals.shows += me.placements; totals.albums += me.works.length;
+    }
+    rows.push([scenario.label, (100 * totals.win / games).toFixed(0) + '%', '$' + (totals.cash / games).toFixed(0),
+      (totals.shows / games).toFixed(1), (totals.albums / games).toFixed(1)]);
+    for (const [artist, tag] of restore) artist.tag = tag;
+  }
+  table(`HOW MUCH DO THE TAGS WEIGH? — ${games} seeded games each with the reference policy`,
+    ['deck', 26, 'win', 'cash', 'shows', 'albums'], rows);
+  console.log('\n  Tags are small modifiers: they never decide whether an artist releases or performs,');
+  console.log('  they only tilt one of the two plans. Stats, stamina and stage access decide roles.');
+}
+
+const EXPERIMENTS = { habits: experimentHabits, bids: experimentBids, builds: experimentBuilds, ceiling: experimentCeiling, seats: experimentSeats, reference: experimentReference, tags: experimentTags };
 const [command = 'all', games = '400'] = process.argv.slice(2);
 const count = Math.max(20, Number(games) || 400);
 const chosen = command === 'all' ? Object.entries(EXPERIMENTS) : [[command, EXPERIMENTS[command]]];
 if (chosen.some(([, fn]) => !fn)) {
-  console.error('usage: node tools/strategy-lab.mjs [all|habits|bids|ceiling|seats] [games]');
+  console.error('usage: node tools/strategy-lab.mjs [all|habits|bids|builds|ceiling|seats|reference|tags] [games]');
   process.exit(1);
 }
 for (const [, run] of chosen) await run(count);

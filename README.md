@@ -29,13 +29,16 @@ Every icon and portrait is generated for the game. The 27 icons are individual 5
 The rules take one game to learn, but the economics are not obvious — so both are written down
 and measured rather than guessed at:
 
+- **[docs/REFERENCE.md](docs/REFERENCE.md)** — every element explained with its exact numbers:
+  what Vocal / Creativity / Stamina do, what each tag really changes, all venues, statuses and
+  events, and a per-artist cheat sheet saying who is built for albums and who is built for shows.
 - **[docs/STRATEGY.md](docs/STRATEGY.md)** — what actually wins: the three income loops, how much
   a computer can bid for a lot, and which habits are load-bearing.
 - **[docs/BALANCE.md](docs/BALANCE.md)** — the audit behind it, including the one fairness flaw it
   turned up (the first seat wins about twice its fair share) and the verified fix.
 
-Both are reproducible: `node tools/strategy-lab.mjs all 400` replays every experiment against the
-engine, so a rules change can be re-measured instead of argued about.
+All three are reproducible: `node tools/strategy-lab.mjs all 400` replays every experiment against
+the engine, so a rules change can be re-measured instead of argued about.
 
 ## Play
 
@@ -85,7 +88,7 @@ Use the **I'M READY** screen when passing the device to another human player. Au
 - `tools/desktop-validate.py`: launches a packaged build and verifies the standalone save channel.
 - `tools/strategy-lab.mjs`: the seeded-game experiments behind `docs/STRATEGY.md` and `docs/BALANCE.md`.
 - `tools/capture-screenshots.py`, `tools/build-art-sheets.py`: regenerate the images in `screenshots/`.
-- `docs/STRATEGY.md`, `docs/BALANCE.md`: what wins, and what the measurements say about fairness.
+- `docs/REFERENCE.md`, `docs/STRATEGY.md`, `docs/BALANCE.md`: every element, what wins, and fairness.
 - `icons/`: 27 individual 512 × 512 transparent PNGs.
 - `portraits/`, `assets/`: artist portraits and table artwork.
 - `screenshots/`: the gallery above, captured from the packaged build.
