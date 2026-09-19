@@ -1,6 +1,28 @@
 # Record Label Rivals
 
-A playable, English-language record label strategy game for 2–4 labels. Play with friends on one device, or play solo against computer labels. No account or online service is required. Progress saves in your browser automatically.
+A playable, English-language record label strategy game for 2–4 labels. Play with friends on one device, or play solo against computer labels. No account or online service is required. Progress saves automatically.
+
+**[⬇ Download the Windows build](https://github.com/NoahIsARider/ICONS/releases/latest)** — unzip it and run `RecordLabelRivals.exe`. No installer, no Node.js, nothing to compile.
+
+## Screenshots
+
+| The title screen | The artist auction |
+| --- | --- |
+| ![Title screen](screenshots/01-title-screen.jpg) | ![Sealed-bid artist auction](screenshots/02-artist-auction.jpg) |
+| **Training & Care** | **Album creation** |
+| ![Training and care](screenshots/03-training-and-care.jpg) | ![Album creation](screenshots/05-album-creation.jpg) |
+| **The live show board** | **The Grammy** |
+| ![Live show venues](screenshots/06-live-show-board.jpg) | ![Grammy awards](screenshots/07-grammy-awards.jpg) |
+| **The event card** | **The final chart** |
+| ![Event card](screenshots/04-event-card.jpg) | ![Winner finale](screenshots/08-winner-finale.jpg) |
+
+## Artwork
+
+Every icon and portrait is generated for the game. The 27 icons are individual 512 × 512 transparent PNGs, also meant to be printed as physical tokens; each of the 24 artists has a portrait that doubles as their playing card.
+
+![The 27 game icons](screenshots/09-icon-set.jpg)
+
+![Twenty-four artist portraits](screenshots/10-artist-portraits.jpg)
 
 ## Play
 
@@ -48,9 +70,11 @@ Use the **I'M READY** screen when passing the device to another human player. Au
 - `electron-main.cjs`, `electron-preload.cjs`: desktop shell and its save bridge.
 - `test/game.test.mjs`: complete-game and rule tests; run with `node --test`.
 - `tools/desktop-validate.py`: launches a packaged build and verifies the standalone save channel.
+- `tools/capture-screenshots.py`, `tools/build-art-sheets.py`: regenerate the images in `screenshots/`.
 - `icons/`: 27 individual 512 × 512 transparent PNGs.
 - `portraits/`, `assets/`: artist portraits and table artwork.
+- `screenshots/`: the gallery above, captured from the packaged build.
 - `icons-preview.png`: labeled icon contact sheet.
-- `source/`, `build_icons.ps1`, `PROMPTS.md`: original sprite sheets and artwork build information.
+- `source/`, `portrait-source/`, `build_icons.ps1`, `build_portraits.ps1`, `PROMPTS.md`: original artwork sheets and build information.
 
 For print, check a physical proof at the intended token size. The icons are raster illustrations, not vector files.
