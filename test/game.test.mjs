@@ -67,6 +67,41 @@ test('an invalid bid cannot overspend', () => {
   assert.equal(Object.keys(state.bids).length,0);
 });
 
+test('only the winning bidder pays, and exactly the amount they bid', () => {
+  const rng = () => 0.5;
+  const state = newGame({players:[{name:'Alpha',ai:false},{name:'Beta',ai:false}]},rng);
+  act(state,{type:'bid',amount:11},rng);
+  act(state,{type:'bid',amount:7},rng);
+  assert.equal(state.players[0].money,7);          // 18 - 11: the winner pays
+  assert.equal(state.players[1].money,18);         // the losing bidder keeps every dollar
+  assert.equal(state.players[0].artists.length,2);
+  assert.equal(state.players[1].artists.length,1);
+
+  act(state,{type:'bid',amount:3},rng);            // Alpha loses this one
+  act(state,{type:'bid',amount:9},rng);
+  assert.equal(state.players[0].money,7);          // unchanged by a bid that lost
+  assert.equal(state.players[1].money,9);
+
+  const signings = state.log.filter(item => / signed .+ for \$\d+/.test(item.text)).map(item => item.text);
+  assert.match(signings[0],/^Beta signed .+ for \$9, beating Alpha \(\$3\)\. \$9 left\.$/);
+});
+
+test('every round reveals a different event card', () => {
+  const rng = random(97);
+  const state = newGame({players:[{name:'Human',ai:false},{name:'Computer',ai:true}]},rng);
+  assert.equal(state.eventDeck.length,10);
+  const revealed = [];
+  let turns = 0;
+  while (!state.gameOver && turns++ < 500) {
+    autoPlayAi(state,rng);
+    const phase = state.phase;
+    if (!state.gameOver) act(state,humanAction(state),rng);
+    if (phase === 2) revealed.push(state.event.id);
+  }
+  assert.equal(revealed.length,10);
+  assert.equal(new Set(revealed).size,10);         // no event card ever repeats
+});
+
 test('Artpop boosts creation quality and Empress breaks an award tie', () => {
   const rng = () => 0;
   const state = newGame({players:[{name:'Alpha',ai:false},{name:'Beta',ai:false}]},rng);
@@ -105,4 +140,19 @@ test('Jazz ignores Tobacco, Vocal Flip boosts shows, and legacy can be inherited
   assert.equal(elder.dead,true);
   assert.equal(younger.inherited,true);
   assert.equal(younger.creativity,4);
+});
+
+test('live shows use two placement cycles and a venue fills after one artist claims it', () => {
+  const state = newGame({players:[{name:'Alpha',ai:false},{name:'Beta',ai:false}]},()=>0);
+  state.phase = 4;
+  act(state,{type:'perform',artistId:state.players[0].artists[0].id,venueId:'studio'},()=>0);
+  assert.equal(state.venueUsed.studio,0);
+  assert.equal(canPlay(state,state.players[1],state.players[1].artists[0],venues[0]),false);
+  act(state,{type:'perform',artistId:state.players[1].artists[0].id,venueId:'club'},()=>0);
+  assert.equal(state.showCycle,1);
+  assert.equal(state.phase,4);
+  assert.equal(canPlay(state,state.players[0],state.players[0].artists[0],venues[2]),false);
+  act(state,{type:'pass'});
+  act(state,{type:'pass'});
+  assert.equal(state.phase,5);
 });

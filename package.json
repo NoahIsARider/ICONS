@@ -3,8 +3,17 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
+  "main": "electron-main.cjs",
+  "productName": "Record Label Rivals",
   "scripts": {
     "start": "node server.mjs",
+    "desktop": "electron .",
+    "package:win": "electron-packager . RecordLabelRivals --platform=win32 --arch=x64 --out=dist --overwrite --asar --prune=true --ignore=^/node_modules --ignore=^/test --ignore=^/tools --ignore=^/source --ignore=^/portrait-source --ignore=^/dist --ignore=^/game-.*\\.png$ --ignore=^/tabletop-.*\\.png$",
+    "validate:desktop": "python tools/desktop-validate.py --exe dist/RecordLabelRivals-win32-x64/RecordLabelRivals.exe",
     "test": "node --test"
+  },
+  "devDependencies": {
+    "@electron/packager": "^20.3.0",
+    "electron": "^44.4.2"
   }
 }

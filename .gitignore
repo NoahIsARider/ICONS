@@ -1,0 +1,18 @@
+# dependencies and stores
+node_modules/
+.pnpm-store/
+__pycache__/
+*.pyc
+
+# desktop build output, and the staging copies build-desktop.ps1 writes
+dist/
+desktop-app/*
+!desktop-app/package.json
+!desktop-app/package-lock.json
+
+# agent scratch files
+.kilo/
+.playwright-mcp/
+
+# archives
+*.zip

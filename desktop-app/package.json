@@ -1,0 +1,16 @@
+{
+  "name": "record-label-rivals-desktop",
+  "productName": "Record Label Rivals",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "main": "electron-main.cjs",
+  "scripts": {
+    "start": "electron .",
+    "package": "electron-packager . RecordLabelRivals --platform=win32 --arch=x64 --out=../dist --overwrite --asar --prune=true --icon=assets/app.ico"
+  },
+  "devDependencies": {
+    "electron": "44.4.2",
+    "@electron/packager": "20.3.0"
+  }
+}

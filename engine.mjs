@@ -27,8 +27,8 @@ export function newGame(config, rng = Math.random) {
     artists:[cloneArtist(starters[index])], works:[], placements:0, color:['#e9b75f','#7de0d6','#ed8db9','#b9a1f9'][index]
   }));
   const state = { version:1, round:1, phase:0, current:0, auctionIndex:0, bids:{},
-    deck:shuffle(artists,rng), eventDeck:shuffle(events,rng), event:null, players,
-    venueUsed:{}, newWorks:[], log:[], serial:0, gameOver:false, winnerIds:[] };
+    deck:shuffle(artists,rng), eventDeck:shuffle(events,rng).slice(0,10), event:null, players,
+    venueUsed:{}, showCycle:0, newWorks:[], log:[], serial:0, gameOver:false, winnerIds:[] };
   pushLog(state, 'The labels open for business. Round 1 begins!', 'highlight');
   return state;
 }
@@ -54,7 +54,13 @@ function nextPhase(state) {
 
 function nextPlayer(state) {
   state.current++;
-  if (state.current >= state.players.length) nextPhase(state);
+  if (state.current >= state.players.length) {
+    if (state.phase === 4 && state.showCycle === 0) {
+      state.showCycle = 1;
+      state.current = 0;
+      pushLog(state, 'Second live-show placement begins. Artists who already performed are unavailable.', 'highlight');
+    } else nextPhase(state);
+  }
 }
 
 function checkCollaboration(state, player, newArtist, rng) {
@@ -72,12 +78,16 @@ function checkCollaboration(state, player, newArtist, rng) {
 function resolveAuction(state, rng) {
   const lot = currentLot(state);
   const ranking = state.players.map(player => ({ player, bid:state.bids[player.id] || 0 })).sort((a,b) => b.bid - a.bid || b.player.acclaim - a.player.acclaim || a.player.id - b.player.id);
+  for (const entry of [...ranking].reverse()) pushLog(state, `${entry.player.name} bid $${entry.bid}.`);
   if (ranking[0].bid > 0) {
     const { player, bid } = ranking[0];
+    const rivals = ranking.slice(1).filter(entry => entry.bid > 0);
     player.money -= bid;
     const recruit = cloneArtist(lot);
     player.artists.push(recruit);
-    pushLog(state, `${player.name} signed ${lot.name} for $${bid}.`, 'success');
+    pushLog(state, rivals.length
+      ? `${player.name} signed ${lot.name} for $${bid}, beating ${rivals.map(entry => `${entry.player.name} ($${entry.bid})`).join(', ')}. $${player.money} left.`
+      : `${player.name} signed ${lot.name} for $${bid} with no other bids. $${player.money} left.`, 'success');
     if (recruit.mentor && owned(player, recruit.mentor)) pushLog(state, `${lot.name} gains mentorship from ${owned(player,recruit.mentor).name}.`, 'success');
     checkCollaboration(state, player, recruit, rng);
     for (const other of living(player)) if (other !== recruit && other.collab === recruit.id && recruit.collab !== other.id) checkCollaboration(state, player, other, rng);
@@ -242,7 +252,7 @@ function reset(state) {
     state.winnerIds = sorted.filter(player => player.money === best.money && player.acclaim === best.acclaim && player.works.length === best.works.length).map(player => player.id);
     pushLog(state, `GAME OVER — ${state.winnerIds.map(id => state.players[id].name).join(' & ')} wins with $${best.money}!`, 'highlight');
   } else {
-    state.round++; state.phase = 0; state.current = 0; state.event = null; state.venueUsed = {}; state.newWorks = [];
+    state.round++; state.phase = 0; state.current = 0; state.event = null; state.venueUsed = {}; state.showCycle = 0; state.newWorks = [];
     pushLog(state, `Round ${state.round} begins. New artists are up for auction.`, 'highlight');
   }
 }

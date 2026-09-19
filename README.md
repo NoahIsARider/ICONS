@@ -10,15 +10,25 @@ A playable, English-language record label strategy game for 2–4 labels. Play w
 
 The game has no package dependencies. The browser loads the local game files and icon artwork from the server.
 
+## Desktop build (Windows)
+
+`build-desktop.ps1` stages the game files into `desktop-app/`, and `pnpm run package:win` packs them into `dist/RecordLabelRivals-win32-x64/`. The executable serves the game on a loopback port inside its own window and writes the autosave to `%APPDATA%\Record Label Rivals\game-save.json` through a preload bridge, so progress survives even when browser storage is unavailable. A build is validated end to end with:
+
+```
+python tools/desktop-validate.py --exe dist/RecordLabelRivals-win32-x64/RecordLabelRivals.exe
+```
+
+That harness launches the executable against a throwaway profile, clicks through real turns over the DevTools protocol, and asserts the save channel: nothing on disk before the game starts, a rewritten save after every action, and a restored table after a reload.
+
 ## Goal and turn structure
 
 The label with the most cash after **10 rounds** wins. Acclaim and release count break cash ties. Each round has nine phases:
 
-1. **Recruitment:** two artists enter sealed-bid auctions. The highest bid signs each artist.
+1. **Recruitment:** two artists enter sealed-bid auctions. The highest bid signs each artist, and **only the winning bidder pays** — a losing bid costs nothing and stays secret until the auction resolves.
 2. **Training & Care:** each label can improve an ability, recover an artist, or pass.
 3. **Event:** reveal a card that changes the round.
 4. **Album Creation:** each label can release one album. Quality sets acclaim and recurring royalties.
-5. **Live Show:** each label places one artist at a shared venue or on an unlocked Solo Tour. Shows pay immediately.
+5. **Live Show:** each label gets two worker placements. Place different artists at shared venues or unlocked Solo Tours. Each shared venue can be claimed once; shows pay immediately.
 6. **Grammy Awards:** the best new release wins. Acclaim also pays a cash benefit.
 7. **Critics:** the label at the bottom of the acclaim track loses cash.
 8. **Karma:** status effects may permanently reduce an artist's ability or cause death.
@@ -32,11 +42,14 @@ Use the **I'M READY** screen when passing the device to another human player. Au
 
 ## Files
 
-- `index.html`, `app.mjs`, `style.css`: playable interface.
+- `index.html`, `game-app.mjs`, `game.css`: playable interface.
 - `engine.mjs`, `data.mjs`: rules and game content.
-- `server.mjs`: local static server.
+- `server.mjs`: local static server, also embedded inside the desktop build.
+- `electron-main.cjs`, `electron-preload.cjs`: desktop shell and its save bridge.
 - `test/game.test.mjs`: complete-game and rule tests; run with `node --test`.
+- `tools/desktop-validate.py`: launches a packaged build and verifies the standalone save channel.
 - `icons/`: 27 individual 512 × 512 transparent PNGs.
+- `portraits/`, `assets/`: artist portraits and table artwork.
 - `icons-preview.png`: labeled icon contact sheet.
 - `source/`, `build_icons.ps1`, `PROMPTS.md`: original sprite sheets and artwork build information.
 
