@@ -1,0 +1,22 @@
+[   79638ms] TypeError: Cannot read properties of undefined (reading 'stamina')
+    at canPlay (http://localhost:4173/engine.mjs:40:78)
+    at http://localhost:4173/app.mjs:112:134
+    at Array.some (<anonymous>)
+    at http://localhost:4173/app.mjs:112:122
+    at http://localhost:4173/app.mjs:84:67
+    at Array.filter (<anonymous>)
+    at selectArtist (http://localhost:4173/app.mjs:84:34)
+    at actionPanel (http://localhost:4173/app.mjs:112:87)
+    at board (http://localhost:4173/app.mjs:139:70)
+    at render (http://localhost:4173/app.mjs:152:33)
+[  162316ms] TypeError: Cannot read properties of undefined (reading 'stamina')
+    at canPlay (http://localhost:4173/engine.mjs:40:78)
+    at http://localhost:4173/app.mjs:112:134
+    at Array.some (<anonymous>)
+    at http://localhost:4173/app.mjs:112:122
+    at http://localhost:4173/app.mjs:84:67
+    at Array.filter (<anonymous>)
+    at selectArtist (http://localhost:4173/app.mjs:84:34)
+    at actionPanel (http://localhost:4173/app.mjs:112:87)
+    at board (http://localhost:4173/app.mjs:139:70)
+    at render (http://localhost:4173/app.mjs:152:33)

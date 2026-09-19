@@ -1,0 +1,148 @@
+- generic [ref=f1e763]:
+  - banner [ref=f1e764]:
+    - generic [ref=f1e765]:
+      - generic [ref=f1e766]: ◉
+      - generic [ref=f1e767]:
+        - text: RECORD LABEL
+        - strong [ref=f1e768]: RIVALS
+    - generic [ref=f1e769]:
+      - generic [ref=f1e770]: ROUND
+      - strong [ref=f1e771]: 01 / 10
+    - button "New Game" [ref=f1e772] [cursor=pointer]
+  - generic [ref=f1e773]:
+    - generic [ref=f1e774]: 1. Recruitment
+    - generic [ref=f1e776]: 2. Training & Care
+    - generic [ref=f1e778]: 3. Event
+    - generic [ref=f1e780]: 4. Album Creation
+    - generic [ref=f1e782]: 5. Live Show
+    - generic [ref=f1e784]: 6. Grammy Awards
+    - generic [ref=f1e786]: 7. Critics
+    - generic [ref=f1e788]: 8. Karma
+    - generic [ref=f1e790]: 9. Reset
+  - generic [ref=f1e792]:
+    - main [ref=f1e793]:
+      - generic [ref=f1e795]:
+        - text: THE BOARDROOM
+        - heading "Recruitment" [level=1] [ref=f1e796]
+        - paragraph [ref=f1e797]: Round 1 of 10 · Your Label is making a move
+      - generic [ref=f1e798]:
+        - generic [ref=f1e799]:
+          - generic [ref=f1e800]: YOUR DECISION
+          - heading "Recruitment" [level=2] [ref=f1e801]
+          - paragraph [ref=f1e802]: Your Label HUMAN TURN
+          - paragraph [ref=f1e803]: Submit a sealed bid for Ash Winter. Highest bid wins; ties favor the label with more acclaim, then turn order.
+          - generic [ref=f1e804]:
+            - generic [ref=f1e805]:
+              - generic [ref=f1e806]: Ambient
+              - heading "Ash Winter" [level=3] [ref=f1e809]
+              - generic [ref=f1e810]: Artpop
+              - generic [ref=f1e811]:
+                - generic [ref=f1e812]: "3"
+                - generic [ref=f1e813]: "5"
+                - generic [ref=f1e814]: "3"
+            - generic [ref=f1e815]:
+              - strong [ref=f1e816]: LOT 2 / 2
+              - generic [ref=f1e817]: 0 of 2 bids submitted
+          - generic [ref=f1e818]:
+            - generic [ref=f1e819]:
+              - text: Your bid
+              - generic [ref=f1e820]: "Available: $10"
+              - 'spinbutton "Your bid Available: $10" [ref=f1e821]': "8"
+            - button "SUBMIT SEALED BID →" [ref=f1e822] [cursor=pointer]
+        - generic [ref=f1e823]:
+          - generic [ref=f1e824]:
+            - generic [ref=f1e825]: ROUND EVENT
+            - heading "Still to come" [level=3] [ref=f1e827]
+            - paragraph [ref=f1e828]: The event card is revealed after Training & Care.
+          - generic [ref=f1e829]:
+            - generic [ref=f1e830]: RECENT RELEASES
+            - paragraph [ref=f1e832]: No records released yet.
+      - generic [ref=f1e833]:
+        - generic [ref=f1e834]:
+          - heading "Artist Rosters" [level=2] [ref=f1e835]
+          - generic [ref=f1e836]: Sign talent. Build an engine.
+        - generic [ref=f1e837]:
+          - generic [ref=f1e838]:
+            - generic [ref=f1e839]: Your Label
+            - generic [ref=f1e841]:
+              - generic [ref=f1e842]:
+                - generic [ref=f1e843]: Indie
+                - heading "Adele Kite" [level=3] [ref=f1e846]
+                - generic [ref=f1e847]: Jazz
+                - generic [ref=f1e848]:
+                  - generic [ref=f1e849]: "3"
+                  - generic [ref=f1e850]: "3"
+                  - generic [ref=f1e851]: 4/4
+              - generic [ref=f1e852]:
+                - generic [ref=f1e853]: Soul
+                - heading "Felix Moon" [level=3] [ref=f1e856]
+                - generic [ref=f1e857]: Vocal Flip
+                - generic [ref=f1e858]:
+                  - generic [ref=f1e859]: "5"
+                  - generic [ref=f1e860]: "3"
+                  - generic [ref=f1e861]: 3/3
+          - generic [ref=f1e862]:
+            - generic [ref=f1e863]: Rival Records
+            - generic [ref=f1e866]:
+              - generic [ref=f1e867]: Pop
+              - heading "Benji Beat" [level=3] [ref=f1e870]
+              - generic [ref=f1e871]: Vocal Flip
+              - generic [ref=f1e872]:
+                - generic [ref=f1e873]: "4"
+                - generic [ref=f1e874]: "2"
+                - generic [ref=f1e875]: 4/4
+    - complementary [ref=f1e876]:
+      - generic [ref=f1e877]:
+        - text: LABEL STANDINGS
+        - generic [ref=f1e878]: ↗
+      - generic [ref=f1e879]:
+        - generic [ref=f1e880]:
+          - generic [ref=f1e881]: Your Label
+          - generic [ref=f1e884]: HUMAN
+        - generic [ref=f1e885]:
+          - generic [ref=f1e886]:
+            - generic [ref=f1e887]: $10
+            - generic [ref=f1e888]: CASH
+          - generic [ref=f1e889]:
+            - generic [ref=f1e890]: "0"
+            - generic [ref=f1e891]: ACCLAIM
+          - generic [ref=f1e892]:
+            - generic [ref=f1e893]: +$0
+            - generic [ref=f1e894]: ROYALTIES
+        - generic [ref=f1e895]: 2 artists · 0 releases
+      - generic [ref=f1e896]:
+        - generic [ref=f1e897]:
+          - generic [ref=f1e898]: Rival Records
+          - generic [ref=f1e901]: COMPUTER
+        - generic [ref=f1e902]:
+          - generic [ref=f1e903]:
+            - generic [ref=f1e904]: $18
+            - generic [ref=f1e905]: CASH
+          - generic [ref=f1e906]:
+            - generic [ref=f1e907]: "0"
+            - generic [ref=f1e908]: ACCLAIM
+          - generic [ref=f1e909]:
+            - generic [ref=f1e910]: +$0
+            - generic [ref=f1e911]: ROYALTIES
+        - generic [ref=f1e912]: 1 artists · 0 releases
+      - generic [ref=f1e913]:
+        - generic [ref=f1e914]: ACTIVITY
+        - generic [ref=f1e916]:
+          - generic [ref=f1e917]:
+            - text: R1 · Recruitment
+            - paragraph [ref=f1e918]: Your Label signed Felix Moon for $8.
+          - generic [ref=f1e919]:
+            - text: R1 · Recruitment
+            - paragraph [ref=f1e920]: Rival Records submitted a sealed bid.
+          - generic [ref=f1e921]:
+            - text: R1 · Recruitment
+            - paragraph [ref=f1e922]: Your Label submitted a sealed bid.
+          - generic [ref=f1e923]:
+            - text: R1 · Recruitment
+            - paragraph [ref=f1e924]: The labels open for business. Round 1 begins!
+  - dialog [ref=f1e925]:
+    - generic [ref=f1e926]:
+      - text: PASS THE DEVICE
+      - heading "Your Label's turn" [level=2] [ref=f1e927]
+      - paragraph [ref=f1e928]: Your bid will stay hidden until all labels have submitted.
+      - button "I'M READY →" [ref=f1e929] [cursor=pointer]

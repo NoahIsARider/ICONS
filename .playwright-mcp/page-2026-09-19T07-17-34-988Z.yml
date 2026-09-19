@@ -1,0 +1,173 @@
+- generic [ref=f1e216]:
+  - banner [ref=f1e217]:
+    - generic [ref=f1e218]:
+      - generic [ref=f1e219]: ◉
+      - generic [ref=f1e220]:
+        - text: RECORD LABEL
+        - strong [ref=f1e221]: RIVALS
+    - generic [ref=f1e222]:
+      - generic [ref=f1e223]: ROUND
+      - strong [ref=f1e224]: 01 / 10
+    - button "New Game" [ref=f1e225] [cursor=pointer]
+  - generic [ref=f1e226]:
+    - generic [ref=f1e227]: 1. Recruitment
+    - generic [ref=f1e229]: 2. Training & Care
+    - generic [ref=f1e231]: 3. Event
+    - generic [ref=f1e233]: 4. Album Creation
+    - generic [ref=f1e235]: 5. Live Show
+    - generic [ref=f1e237]: 6. Grammy Awards
+    - generic [ref=f1e239]: 7. Critics
+    - generic [ref=f1e241]: 8. Karma
+    - generic [ref=f1e243]: 9. Reset
+  - generic [ref=f1e245]:
+    - main [ref=f1e246]:
+      - generic [ref=f1e248]:
+        - text: THE BOARDROOM
+        - heading "Recruitment" [level=1] [ref=f1e249]
+        - paragraph [ref=f1e250]: Round 1 of 10 · Your Label is making a move
+      - generic [ref=f1e251]:
+        - generic [ref=f1e252]:
+          - generic [ref=f1e253]: YOUR DECISION
+          - heading "Recruitment" [level=2] [ref=f1e254]
+          - paragraph [ref=f1e255]: Your Label HUMAN TURN
+          - paragraph [ref=f1e256]: Submit a sealed bid for Zara Pulse. Highest bid wins; ties favor the label with more acclaim, then turn order.
+          - generic [ref=f1e257]:
+            - generic [ref=f1e258]:
+              - generic [ref=f1e259]: House
+              - heading "Zara Pulse" [level=3] [ref=f1e262]
+              - generic [ref=f1e263]: Artpop
+              - generic [ref=f1e264]:
+                - generic [ref=f1e265]: "4"
+                - generic [ref=f1e266]: "4"
+                - generic [ref=f1e267]: "4"
+            - generic [ref=f1e268]:
+              - strong [ref=f1e269]: LOT 1 / 2
+              - generic [ref=f1e270]: 0 of 4 bids submitted
+          - generic [ref=f1e271]:
+            - generic [ref=f1e272]:
+              - text: Your bid
+              - generic [ref=f1e273]: "Available: $18"
+              - 'spinbutton "Your bid Available: $18" [ref=f1e274]': "8"
+            - button "SUBMIT SEALED BID →" [ref=f1e275] [cursor=pointer]
+        - generic [ref=f1e276]:
+          - generic [ref=f1e277]:
+            - generic [ref=f1e278]: ROUND EVENT
+            - heading "Still to come" [level=3] [ref=f1e280]
+            - paragraph [ref=f1e281]: The event card is revealed after Training & Care.
+          - generic [ref=f1e282]:
+            - generic [ref=f1e283]: RECENT RELEASES
+            - paragraph [ref=f1e285]: No records released yet.
+      - generic [ref=f1e286]:
+        - generic [ref=f1e287]:
+          - heading "Artist Rosters" [level=2] [ref=f1e288]
+          - generic [ref=f1e289]: Sign talent. Build an engine.
+        - generic [ref=f1e290]:
+          - generic [ref=f1e291]:
+            - generic [ref=f1e292]: Your Label
+            - generic [ref=f1e295]:
+              - generic [ref=f1e296]: Indie
+              - heading "Adele Kite" [level=3] [ref=f1e299]
+              - generic [ref=f1e300]: Jazz
+              - generic [ref=f1e301]:
+                - generic [ref=f1e302]: "3"
+                - generic [ref=f1e303]: "3"
+                - generic [ref=f1e304]: 4/4
+          - generic [ref=f1e305]:
+            - generic [ref=f1e306]: Rival Records
+            - generic [ref=f1e309]:
+              - generic [ref=f1e310]: Pop
+              - heading "Benji Beat" [level=3] [ref=f1e313]
+              - generic [ref=f1e314]: Vocal Flip
+              - generic [ref=f1e315]:
+                - generic [ref=f1e316]: "4"
+                - generic [ref=f1e317]: "2"
+                - generic [ref=f1e318]: 4/4
+          - generic [ref=f1e319]:
+            - generic [ref=f1e320]: Third Label
+            - generic [ref=f1e323]:
+              - generic [ref=f1e324]: Synthpop
+              - heading "Cora Lux" [level=3] [ref=f1e327]
+              - generic [ref=f1e328]: Artpop
+              - generic [ref=f1e329]:
+                - generic [ref=f1e330]: "3"
+                - generic [ref=f1e331]: "4"
+                - generic [ref=f1e332]: 4/4
+          - generic [ref=f1e333]:
+            - generic [ref=f1e334]: Fourth Label
+            - generic [ref=f1e337]:
+              - generic [ref=f1e338]: Soul
+              - heading "Dante Blue" [level=3] [ref=f1e341]
+              - generic [ref=f1e342]: Jazz
+              - generic [ref=f1e343]:
+                - generic [ref=f1e344]: "4"
+                - generic [ref=f1e345]: "3"
+                - generic [ref=f1e346]: 3/3
+    - complementary [ref=f1e347]:
+      - generic [ref=f1e348]:
+        - text: LABEL STANDINGS
+        - generic [ref=f1e349]: ↗
+      - generic [ref=f1e350]:
+        - generic [ref=f1e351]:
+          - generic [ref=f1e352]: Your Label
+          - generic [ref=f1e355]: HUMAN
+        - generic [ref=f1e356]:
+          - generic [ref=f1e357]:
+            - generic [ref=f1e358]: $18
+            - generic [ref=f1e359]: CASH
+          - generic [ref=f1e360]:
+            - generic [ref=f1e361]: "0"
+            - generic [ref=f1e362]: ACCLAIM
+          - generic [ref=f1e363]:
+            - generic [ref=f1e364]: +$0
+            - generic [ref=f1e365]: ROYALTIES
+        - generic [ref=f1e366]: 1 artists · 0 releases
+      - generic [ref=f1e367]:
+        - generic [ref=f1e368]:
+          - generic [ref=f1e369]: Rival Records
+          - generic [ref=f1e372]: COMPUTER
+        - generic [ref=f1e373]:
+          - generic [ref=f1e374]:
+            - generic [ref=f1e375]: $18
+            - generic [ref=f1e376]: CASH
+          - generic [ref=f1e377]:
+            - generic [ref=f1e378]: "0"
+            - generic [ref=f1e379]: ACCLAIM
+          - generic [ref=f1e380]:
+            - generic [ref=f1e381]: +$0
+            - generic [ref=f1e382]: ROYALTIES
+        - generic [ref=f1e383]: 1 artists · 0 releases
+      - generic [ref=f1e384]:
+        - generic [ref=f1e385]:
+          - generic [ref=f1e386]: Third Label
+          - generic [ref=f1e389]: COMPUTER
+        - generic [ref=f1e390]:
+          - generic [ref=f1e391]:
+            - generic [ref=f1e392]: $18
+            - generic [ref=f1e393]: CASH
+          - generic [ref=f1e394]:
+            - generic [ref=f1e395]: "0"
+            - generic [ref=f1e396]: ACCLAIM
+          - generic [ref=f1e397]:
+            - generic [ref=f1e398]: +$0
+            - generic [ref=f1e399]: ROYALTIES
+        - generic [ref=f1e400]: 1 artists · 0 releases
+      - generic [ref=f1e401]:
+        - generic [ref=f1e402]:
+          - generic [ref=f1e403]: Fourth Label
+          - generic [ref=f1e406]: COMPUTER
+        - generic [ref=f1e407]:
+          - generic [ref=f1e408]:
+            - generic [ref=f1e409]: $18
+            - generic [ref=f1e410]: CASH
+          - generic [ref=f1e411]:
+            - generic [ref=f1e412]: "0"
+            - generic [ref=f1e413]: ACCLAIM
+          - generic [ref=f1e414]:
+            - generic [ref=f1e415]: +$0
+            - generic [ref=f1e416]: ROYALTIES
+        - generic [ref=f1e417]: 1 artists · 0 releases
+      - generic [ref=f1e418]:
+        - generic [ref=f1e419]: ACTIVITY
+        - generic [ref=f1e422]:
+          - text: R1 · Recruitment
+          - paragraph [ref=f1e423]: The labels open for business. Round 1 begins!
