@@ -54,7 +54,8 @@ acclaim**; an arena show pays about **$14.7 once**. Albums scale with the calend
 scale with stamina — which is why the winning plan does both with the same artists.
 
 A third, quieter channel: **acclaim pays `⌊acclaim/5⌋` every round** in the Grammy phase, and
-the label last on the acclaim track loses $3 (or $5 with Tough Critics).
+the label last on the acclaim track loses $3 (or $5 with Tough Critics) — measured at
+$31.3 in and $13.3 out over a game, and broken down in its own section below.
 
 A word on stamina, because it is the quiet constraint: every round each artist recovers **1**
 point and no more. Releasing an album (1) and playing the Grand Arena (2) costs 3, so no artist
@@ -113,6 +114,41 @@ So the Grammy is a quality-12 contest: an album from a creativity-5 artist with 
 mentor lands at 11–13 and is a real contender, and an Empress artist is your tie-breaker of
 choice. A collaboration single is not just flavour — it is the only work that can reach quality
 15, and it wins roughly one award in ten.
+
+## Acclaim: the third income, and the only one you never lose
+
+Acclaim pays `⌊acclaim/5⌋` in every awards phase, so 5 acclaim is a permanent $1 a round — and
+nothing in the rules ever subtracts a point of it. It has exactly three sources, and one of them
+does almost all the work:
+
+| source | acclaim | measured per game (reference policy) |
+| --- | --- | --- |
+| releasing an album | 1–4 by quality: 1–5 → +1, 6–8 → +2, 9–11 → +3, 12–14 → +4, **+2 more** under Press Spotlight | **26.7** (82% of all acclaim) |
+| winning the Grammy | +3 | **5.2** (16%, 1.7 wins a game) |
+| a collaboration single | +2 the moment the chemistry roll fires | 0.6 (2%) |
+| **total by the end of round 10** | | **32.5** (across games: 15–58) |
+
+**What that is worth.** `node tools/strategy-lab.mjs acclaim 400` follows seat 0 through 400 games
+and prices both ends of the track:
+
+- the awards phase pays out **$31.3** a game in acclaim money;
+- the critics phase takes **$13.3** back — the label finished last on the track in **42%** of
+  rounds, and last place pays $3, or $5 under the Tough Critics event.
+
+So the acclaim track is worth about **$18 net a game**, and most of that comes from simply
+releasing a good album every round. The quality steps matter more than the Grammy: an album at
+quality 3–5 is +1 acclaim where quality 9–11 is +3, so one good album is worth three lazy ones.
+
+**Chasing collaborations doubles the smallest source and pays twice over.** A policy that bids up
+to $12 whenever a lot completes a pair went from 0.3 to **1.9 singles a game**, and the total
+acclaim rose from 32.5 to **39.2** — because a single pays +2 acclaim *and* adds a second Grammy
+entry of up to quality 15, which took Grammy wins from 1.7 to 2.4 a game. All twenty artists in
+the deck are dealt exactly once per game, so all ten pairs are always on the table: hold one
+half, win the other's auction, and the chemistry roll fires four times in six.
+
+Both tables are reproduced by `node tools/strategy-lab.mjs acclaim 400`, which also checks its own
+model of the rules: it recomputes each label's acclaim from the finished game and compares it with
+the engine's total (0 disagreements over 400 games).
 
 ## What one point of each stat buys
 

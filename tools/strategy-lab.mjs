@@ -13,6 +13,7 @@
  *   bids       how much to bid vs one computer and vs three
  *   builds     are several play styles viable, or is one strictly best?
  *   awards     how the Grammy resolves: eligibility, tie-breaks, who wins
+ *   acclaim    every source of acclaim, what it pays, and the cost of falling behind
  *   ceiling    what the computers can possibly bid for a lot
  *   seats      positional fairness: four identical players, only the seat differs
  *   reference  what every stat, stage, status and artist is worth (arithmetic)
@@ -513,12 +514,102 @@ async function experimentAwards(games) {
   console.log('  earlier release. A collaboration single can reach quality 15 where an album caps at 14.');
 }
 
-const EXPERIMENTS = { habits: experimentHabits, bids: experimentBids, builds: experimentBuilds, awards: experimentAwards, ceiling: experimentCeiling, seats: experimentSeats, reference: experimentReference, tags: experimentTags };
+/** where acclaim comes from, what it pays, and what falling behind costs */
+async function experimentAcclaim(games) {
+  const { engine, data } = await load();
+  const reference = toPolicy(habitsFor(engine, data.venues));
+
+  // sources are derived from the finished game and checked against the label's own acclaim,
+  // so a mistaken model of the rules shows up as a disagreement instead of a wrong number
+  const measure = policy => {
+    const t = { albums: 0, albumsMade: 0, grammy: 0, grammys: 0, collab: 0, collabs: 0, end: 0,
+                track: 0, penalty: 0, lastRounds: 0, min: 999, max: 0, disagreements: 0 };
+    for (let g = 0; g < games; g++) {
+      const rng = random(31 + g * 977);
+      const state = engine.newGame({ players: [0, 1, 2, 3].map(n => ({ name: 'P' + n, ai: n > 0 })) }, rng);
+      const eventByRound = new Map(), acclaimAtAwards = new Map(), criticSeen = new Set();
+      let guard = 0;
+      while (!state.gameOver && guard++ < 900) {
+        engine.autoPlayAi(state, rng);
+        if (state.gameOver) break;
+        if (state.event && (state.phase === 2 || state.phase === 3)) eventByRound.set(state.round, state.event.id);
+        if (state.phase === 5 && !acclaimAtAwards.has(state.round)) acclaimAtAwards.set(state.round, state.players[0].acclaim);
+        if (state.phase === 6 && !criticSeen.has(state.round)) {          // the last-place penalty is charged here
+          criticSeen.add(state.round);
+          const all = state.players.map(p => p.acclaim);
+          if (Math.min(...all) !== Math.max(...all) && state.players[0].acclaim === Math.min(...all)) {
+            t.lastRounds++; t.penalty += 3 + (state.event?.id === 'critics' ? 2 : 0);
+          }
+        }
+        try { engine.act(state, policy(state, engine.currentPlayer(state)), rng); } catch { engine.act(state, { type: 'pass' }, rng); }
+      }
+      const me = state.players[0];
+      const albumWorks = me.works.filter(w => !w.collaboration);
+      const collabWorks = me.works.filter(w => w.collaboration);
+      const wonRounds = new Set(me.works.filter(w => w.awarded).map(w => w.round));
+      let albums = 0;
+      for (const work of albumWorks) albums += Math.max(1, Math.floor(work.quality / 3)) + (eventByRound.get(work.round) === 'press' ? 2 : 0);
+      const collab = collabWorks.length * 2, grammy = wonRounds.size * 3;
+      if (albums + collab + grammy !== me.acclaim) t.disagreements++;
+      t.albums += albums; t.albumsMade += albumWorks.length;
+      t.collab += collab; t.collabs += collabWorks.length;
+      t.grammy += grammy; t.grammys += wonRounds.size;
+      t.end += me.acclaim;
+      t.min = Math.min(t.min, me.acclaim); t.max = Math.max(t.max, me.acclaim);
+      for (let round = 1; round <= 10; round++) t.track += Math.floor(((acclaimAtAwards.get(round) ?? 0) + (wonRounds.has(round) ? 3 : 0)) / 5);
+    }
+    return t;
+  };
+
+  const table = (t, label) => {
+    const per = n => (n / games).toFixed(1);
+    const total = t.albums + t.grammy + t.collab;
+    const share = n => (100 * n / Math.max(1, total)).toFixed(0) + '%';
+    console.log('\n' + label);
+    console.log('  source                                   acclaim per game   share');
+    console.log('  albums (1 a round; quality sets it)      ' + per(t.albums).padStart(10) + '          ' + share(t.albums)
+      + '   (' + per(t.albumsMade) + ' albums a game)');
+    console.log('  Grammy wins (+3 each)                    ' + per(t.grammy).padStart(10) + '          ' + share(t.grammy)
+      + '   (' + per(t.grammys) + ' wins a game)');
+    console.log('  collaboration singles (+2 each)          ' + per(t.collab).padStart(10) + '          ' + share(t.collab)
+      + '   (' + per(t.collabs) + ' singles a game)');
+    console.log('  total acclaim at the end                 ' + per(t.end).padStart(10)
+      + `          (over games: ${t.min}-${t.max})`);
+    console.log('  acclaim-track cash in the awards phase   $' + per(t.track));
+    console.log('  last place on the track (cash lost)      $' + per(t.penalty)
+      + `   (last in ${(100 * t.lastRounds / (games * 10)).toFixed(0)}% of rounds)`);
+    console.log('  model disagreements with the engine      ' + t.disagreements);
+  };
+
+  table(measure(reference), `REFERENCE POLICY — ${games} games, seat 0`);
+  console.log('\n  album quality steps: 1-5 -> +1 acclaim, 6-8 -> +2, 9-11 -> +3, 12-14 -> +4,');
+  console.log('  and Press Spotlight adds +2 to every album released that round.');
+  console.log('  the last-place penalty only ever touches cash, never acclaim.');
+
+  const strongLot = lot => lot.vocal >= 5 || lot.creativity >= 5;
+  const usefulLot = lot => lot.vocal >= 4 || lot.creativity >= 4;
+  const collabPolicy = (state, player) => {
+    if (state.phase === 0) {
+      const lot = engine.currentLot(state);
+      if (!lot) return { type: 'pass' };
+      const roster = player.artists.filter(a => !a.dead).length;
+      const partner = player.artists.find(a => !a.dead && (a.collab === lot.id || lot.collab === a.id));
+      const willing = partner ? 12 : roster < 3 ? (strongLot(lot) ? 12 : usefulLot(lot) ? 7 : 0) : (strongLot(lot) ? 9 : 0);
+      return { type: 'bid', amount: Math.min(Math.max(0, player.money - 4), willing) };
+    }
+    return reference(state, player);
+  };
+  table(measure(collabPolicy), 'THE SAME GAME, BUT ALWAYS BIDDING FOR THE OTHER HALF OF A PAIR');
+  console.log('\n  all twenty artists are dealt exactly once a game, so every one of the ten pairs is');
+  console.log('  on the table: hold one half, win the other, and the chemistry roll fires 4 times in 6.');
+}
+
+const EXPERIMENTS = { habits: experimentHabits, bids: experimentBids, builds: experimentBuilds, awards: experimentAwards, acclaim: experimentAcclaim, ceiling: experimentCeiling, seats: experimentSeats, reference: experimentReference, tags: experimentTags };
 const [command = 'all', games = '400'] = process.argv.slice(2);
 const count = Math.max(20, Number(games) || 400);
 const chosen = command === 'all' ? Object.entries(EXPERIMENTS) : [[command, EXPERIMENTS[command]]];
 if (chosen.some(([, fn]) => !fn)) {
-  console.error('usage: node tools/strategy-lab.mjs [all|habits|bids|builds|awards|ceiling|seats|reference|tags] [games]');
+  console.error('usage: node tools/strategy-lab.mjs [all|habits|bids|builds|awards|acclaim|ceiling|seats|reference|tags] [games]');
   process.exit(1);
 }
 for (const [, run] of chosen) await run(count);
