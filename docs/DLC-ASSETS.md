@@ -1,4 +1,6 @@
-# DLC asset manifest
+# Original DLC art direction brief
+
+The two expansions have been implemented. See [DLC-PLAY.md](DLC-PLAY.md) for the actual game rules, art files, and build steps. The following is the earlier asset concept brief; its proposed names and sheet layout are superseded by the finished assets.
 
 Two expansions are planned, and neither one touches the rules engine: each DLC swaps the data
 table and the artwork, so every number measured in `docs/REFERENCE.md` still holds.

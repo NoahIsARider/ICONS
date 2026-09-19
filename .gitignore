@@ -13,6 +13,22 @@ desktop-app/*
 # agent scratch files
 .kilo/
 .playwright-mcp/
+.dlc-test-profile*/
+.dlc-packaged-profile/
+dlc-electron-*.txt
+dlc-packaged-*.txt
+dlc/*/animation/*/*.webp
+# frames are cropped back out of the sprite sheets by dlc/build-animation-assets.ps1
+dlc/*/animation/*/frame-*.png
+dlc/*/animation/*/*.apng
+dist-dlc/
+dist-dlc-final/
+
+# retired root screenshots — the gallery lives in screenshots/
+/game-board.png
+/game-mobile.png
+/game-screenshot.png
+/tabletop-*.png
 
 # archives
 *.zip

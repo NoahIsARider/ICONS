@@ -1,0 +1,11 @@
+.game-table,.title-screen{background-image:url('film-set-table.png')}
+.title-screen .title-foot a{color:#e9bf77;text-decoration:none}
+.title-screen .title-foot a:hover{text-decoration:underline}
+.scene-auction:after{content:'';position:absolute;left:3%;bottom:7%;width:14%;aspect-ratio:1;background:url('animation/clapper/clapper-animated.png') center/contain no-repeat;opacity:.7;pointer-events:none}
+.scene-ceremony:before{content:'';position:absolute;inset:6% 25% 12%;background:url('animation/award-spotlight/award-spotlight-animated.png') center/contain no-repeat;opacity:.3;pointer-events:none}
+.studio-press{background:radial-gradient(circle at 50% 45%,#244450,#07121e 72%);border:2px solid #c99856}
+.studio-press .spinning-vinyl{background:url('animation/clapper/clapper-animated.png') center/contain no-repeat;box-shadow:none;animation:none;border:none;border-radius:0}
+.studio-press .spinning-vinyl span{display:none}
+.table-brand .record-mark{font-size:25px}
+.playing-card .card-face-art{background-position:center top}
+@media(max-width:850px){.scene-auction:after{display:none}}

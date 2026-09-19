@@ -21,3 +21,4 @@
 @media(max-width:850px){.hand-zone{height:235px}.hand-cards{height:205px}}
 .event-back{animation:event-card-in .5s both}
 @keyframes event-card-in{from{opacity:0;transform:translate(-50%,-35%) rotate(-18deg) scale(.8)}to{opacity:1;transform:translate(-50%,-50%) rotate(-4deg) scale(1)}}
+.expansion-shelf{display:flex;gap:9px;margin-top:10px;width:min(470px,95vw)}.expansion-shelf a{flex:1;border:1px solid #b38a54;border-radius:6px;background:#0a2030e8;color:#f2c57d;padding:9px 11px;text-decoration:none;box-shadow:0 7px 17px #0007}.expansion-shelf a:hover{transform:translateY(-3px);background:#16394c}.expansion-shelf b,.expansion-shelf small{display:block}.expansion-shelf b{font-size:14px;letter-spacing:.09em}.expansion-shelf small{font-size:10px;color:#b5cccb;margin-top:3px}@media(max-width:610px){.expansion-shelf{width:100%}}

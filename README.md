@@ -1,8 +1,10 @@
 # Record Label Rivals
 
-A playable, English-language record label strategy game for 2–4 labels. Play with friends on one device, or play solo against computer labels. No account or online service is required. Progress saves automatically.
+A playable, English-language record label strategy game for 2–4 labels. The source also includes two expansions: **Actor Agency Rivals** and **Debut Night**. Play with friends on one device, or play solo against computer labels. No account or online service is required. Progress saves automatically.
 
 **[⬇ Download the Windows build](https://github.com/NoahIsARider/ICONS/releases/latest)** — unzip it and run `RecordLabelRivals.exe`. No installer, no Node.js, nothing to compile.
+
+The two DLCs are available in this source tree. Rebuild the desktop app to include them in a Windows executable; an earlier GitHub release will not update automatically.
 
 ## Screenshots
 
@@ -24,6 +26,41 @@ Every icon and portrait is generated for the game. The 27 icons are individual 5
 
 ![Twenty-four artist portraits](screenshots/10-artist-portraits.jpg)
 
+## Expansions
+
+Two expansions are finished in this source tree and open from the title screen. Neither is inside
+the v1.0.0 download yet, so rebuild the desktop app (`./build-desktop.ps1`) to get them in an
+executable.
+
+### Actor Agency Rivals
+
+The same ten rounds played by an acting agency: cast actors instead of signing artists, produce
+films instead of albums, book shoot days instead of shows, and collect residuals instead of
+royalties. The twenty-four new actors carry the original stat blocks one-to-one, so the balance
+measured in [docs/BALANCE.md](docs/BALANCE.md) still holds, and the four traits are presented as
+Method, Range, Star Power and Box Office.
+
+| The title screen | The casting auction |
+| --- | --- |
+| ![Actor Agency title](screenshots/dlc-actor-title.jpg) | ![Casting auction](screenshots/dlc-actor-game.jpg) |
+
+### Debut Night
+
+A five-episode mixed-gender stage season that reuses every card in the game: all 24 singers and
+all 24 actors, 48 in total. Each episode you claim one rehearsal station — only one company can
+take each specialist space — then send a card to the live stage with a focus and up to $3 of
+promotion, with submissions sealed until everyone has performed. The top three performers bank
+5, 3 and 1 bonus fans. After five episodes the seven biggest earners debut, seats score
+10 / 8 / 6 / 5 / 4 / 3 / 2, and the company holding the most debut seats takes 8 extra points.
+
+| The title screen | Claiming a rehearsal space |
+| --- | --- |
+| ![Debut Night title](screenshots/dlc-ensemble-title.jpg) | ![Rehearsal stations](screenshots/dlc-ensemble-game.jpg) |
+
+![Episode results](screenshots/dlc-ensemble-results.jpg)
+
+Rules, art files and build steps: [docs/DLC-PLAY.md](docs/DLC-PLAY.md).
+
 ## Strategy and balance
 
 The rules take one game to learn, but the economics are not obvious — so both are written down
@@ -36,12 +73,13 @@ and measured rather than guessed at:
   a computer can bid for a lot, and which habits are load-bearing.
 - **[docs/BALANCE.md](docs/BALANCE.md)** — the audit behind it, including the one fairness flaw it
   turned up (the first seat wins about twice its fair share) and the verified fix.
-- **[docs/DLC-ASSETS.md](docs/DLC-ASSETS.md)** — the two planned expansions (an acting-agency
-  season and a group-debut stage season) and the complete artwork shopping list for them: every
-  medallion, every portrait, every background, with the prompt for each sheet.
+- **[docs/DLC-PLAY.md](docs/DLC-PLAY.md)** — how to play and build the two completed expansions,
+  including their art files and scoring rules.
+- **[docs/DLC-ASSETS.md](docs/DLC-ASSETS.md)** — the art direction brief the expansions were
+  generated from: every medallion, portrait and background, with the prompt for each sheet.
 
-All three are reproducible: `node tools/strategy-lab.mjs all 400` replays every experiment against
-the engine, so a rules change can be re-measured instead of argued about.
+The measurements are reproducible: `node tools/strategy-lab.mjs all 400` replays every experiment
+against the engine, so a rules change can be re-measured instead of argued about.
 
 ## Play
 
