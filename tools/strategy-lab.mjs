@@ -12,6 +12,7 @@
  *   habits     which habits decide games (switch one off at a time)
  *   bids       how much to bid vs one computer and vs three
  *   builds     are several play styles viable, or is one strictly best?
+ *   awards     how the Grammy resolves: eligibility, tie-breaks, who wins
  *   ceiling    what the computers can possibly bid for a lot
  *   seats      positional fairness: four identical players, only the seat differs
  *   reference  what every stat, stage, status and artist is worth (arithmetic)
@@ -462,12 +463,62 @@ async function experimentTags(games) {
   console.log('  they only tilt one of the two plans. Stats, stamina and stage access decide roles.');
 }
 
-const EXPERIMENTS = { habits: experimentHabits, bids: experimentBids, builds: experimentBuilds, ceiling: experimentCeiling, seats: experimentSeats, reference: experimentReference, tags: experimentTags };
+/** how the Grammy actually resolves: instrument every awards phase */
+async function experimentAwards(games) {
+  const { engine, data } = await load();
+  const policy = toPolicy(habitsFor(engine, data.venues));
+  const stats = { rounds: 0, empty: 0, entries: 0, ties: 0, empress: 0, collab: 0, quality: 0, best: 0, worst: 99 };
+  const distribution = new Map();
+  for (let i = 0; i < games; i++) {
+    const rng = random(31 + i * 977);
+    const state = engine.newGame({ players: [0, 1, 2, 3].map(n => ({ name: 'P' + n, ai: n > 0 })) }, rng);
+    let guard = 0;
+    while (!state.gameOver && guard++ < 900) {
+      engine.autoPlayAi(state, rng);
+      if (state.gameOver) break;
+      if (state.phase === 5) {
+        const works = state.players.flatMap(p => p.works).filter(w => state.newWorks.includes(w.id));
+        stats.rounds++;
+        if (!works.length) stats.empty++;
+        else {
+          const empress = work => (state.players[work.ownerId].artists.some(a => work.artistIds.includes(a.id) && a.tag === 'Empress') ? 1 : 0);
+          const ranked = [...works].sort((a, b) => b.quality - a.quality || empress(b) - empress(a) || a.id - b.id);
+          const winner = ranked[0];
+          stats.entries += works.length;
+          if (ranked[1] && ranked[1].quality === winner.quality) {
+            stats.ties++;
+            if (empress(winner) && !empress(ranked[1])) stats.empress++;
+          }
+          if (winner.collaboration) stats.collab++;
+          stats.quality += winner.quality;
+          stats.best = Math.max(stats.best, winner.quality);
+          stats.worst = Math.min(stats.worst, winner.quality);
+          distribution.set(winner.quality, (distribution.get(winner.quality) || 0) + 1);
+        }
+      }
+      try { engine.act(state, policy(state, engine.currentPlayer(state)), rng); } catch { engine.act(state, { type: 'pass' }, rng); }
+    }
+  }
+  const pct = n => (100 * n / stats.rounds).toFixed(1) + '%';
+  console.log(`\nTHE GRAMMY IN PRACTICE — ${games} games, ${stats.rounds} award rounds\n`);
+  console.log('  rounds with no eligible release      ' + pct(stats.empty));
+  console.log('  entries per round                    ' + (stats.entries / stats.rounds).toFixed(2));
+  console.log('  rounds decided by a tie-break        ' + pct(stats.ties) + '  (top quality shared)');
+  console.log('  ...decided by the Empress rule       ' + pct(stats.empress));
+  console.log('  awards won by a collaboration single ' + pct(stats.collab));
+  console.log(`  winning quality                      average ${(stats.quality / stats.rounds).toFixed(1)}, range ${stats.worst}-${stats.best}`);
+  console.log('  distribution                         ' + [...distribution.entries()].sort((a, b) => a[0] - b[0])
+    .map(([q, n]) => `${q}:${(100 * n / stats.rounds).toFixed(0)}%`).join('  '));
+  console.log('\n  Eligibility is this round only; ranking is quality, then Empress on the work, then the');
+  console.log('  earlier release. A collaboration single can reach quality 15 where an album caps at 14.');
+}
+
+const EXPERIMENTS = { habits: experimentHabits, bids: experimentBids, builds: experimentBuilds, awards: experimentAwards, ceiling: experimentCeiling, seats: experimentSeats, reference: experimentReference, tags: experimentTags };
 const [command = 'all', games = '400'] = process.argv.slice(2);
 const count = Math.max(20, Number(games) || 400);
 const chosen = command === 'all' ? Object.entries(EXPERIMENTS) : [[command, EXPERIMENTS[command]]];
 if (chosen.some(([, fn]) => !fn)) {
-  console.error('usage: node tools/strategy-lab.mjs [all|habits|bids|builds|ceiling|seats|reference|tags] [games]');
+  console.error('usage: node tools/strategy-lab.mjs [all|habits|bids|builds|awards|ceiling|seats|reference|tags] [games]');
   process.exit(1);
 }
 for (const [, run] of chosen) await run(count);

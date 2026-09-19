@@ -75,6 +75,45 @@ artists there is almost always somebody fresh enough for both show placements.
 Shared venues (everything except the Solo Tour) can be claimed by only one label per round,
 so the labels that move first in the show phase take the best stages.
 
+## The Grammy Awards
+
+The awards phase resolves after the live shows, every round, and it hands out two things: one
+Grammy, and the acclaim payout for every label.
+
+**What is eligible.** Only releases made *in this round*: albums released in the album phase and
+collaboration singles signed during the auction. Everything from earlier rounds is out, which is
+why releasing one album every round keeps you in the race for all ten awards.
+
+**How the winner is chosen**, in order:
+
+1. **highest quality** — albums run from 1 to 14 (`creativity + die + Artpop + mentor − stress −
+   illness`); a collaboration single can reach **15** (`both artists' creativity + 2`);
+2. **Empress** — if two works tie on quality, the one whose performers include an Empress artist
+   takes it;
+3. **earlier release** — after that, the work created first in the round wins, and collaborations
+   are created during the auction, so a collab single beats an album on a double tie.
+
+**The prize**: +3 acclaim and **$4** in cash to the winner (**$7** during the Award Season event).
+Then every label collects `⌊acclaim/5⌋` in cash, which is the quiet money in this phase — 20
+acclaim pays $4 every single round. The last-place penalty for the acclaim track comes in the
+next phase, not this one.
+
+**How it plays out.** `node tools/strategy-lab.mjs awards 400` instruments 4,000 award rounds:
+
+| measurement | result |
+| --- | --- |
+| rounds with no eligible release | 0% (any label releasing every round is always in it) |
+| entries per round | 4.46 works on average |
+| rounds where the top quality was tied | **26.1%** — these were decided by a tie-break |
+| ...of which the Empress rule decided it | 3.6% of all rounds (about one in seven ties) |
+| awards won by a collaboration single | 9.7% |
+| winning quality | average **11.5**, range 7–14; 55% of wins were quality 12 or 13 |
+
+So the Grammy is a quality-12 contest: an album from a creativity-5 artist with Artpop or a
+mentor lands at 11–13 and is a real contender, and an Empress artist is your tie-breaker of
+choice. A collaboration single is not just flavour — it is the only work that can reach quality
+15, and it wins roughly one award in ten.
+
 ## What one point of each stat buys
 
 | vocal | best stage unlocked | fee there | what changed |
@@ -131,7 +170,7 @@ Ten of the thirteen are dealt per game (one per round), so some never appear.
 | Smoky Club | a random artist gains Tobacco (Jazz ignores the penalty) |
 | Sponsor Offer | every label receives $2 immediately |
 | Studio Rebate | album creation costs $1 less this round |
-| Award Season | the Grammy winner earns an extra $3 |
+| Award Season | the Grammy winner earns an extra $3 (so $7 in total) |
 | Tourist Wave | Festival, Arena and Solo Tour shows earn +$3 |
 | Tough Critics | the last-place critic-track penalty increases by $2 (to $5) |
 | Wellness Week | all living artists recover 1 stamina immediately |
