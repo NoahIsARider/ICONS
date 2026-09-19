@@ -3,7 +3,16 @@ $target = Join-Path $root 'desktop-app'
 New-Item -ItemType Directory -Force -Path $target | Out-Null
 
 $files = @('index.html','actor.html','ensemble.html','game.css','game-app.mjs','engine.mjs','data.mjs','server.mjs','electron-main.cjs','electron-preload.cjs')
+
+# start from a clean slate: a stale copy from an earlier build would otherwise be packed into the asar
+foreach ($folder in @('icons','portraits','assets','dlc')) {
+    $stale = Join-Path $target $folder
+    if (Test-Path -LiteralPath $stale) { Remove-Item -LiteralPath $stale -Recurse -Force }
+}
+Get-ChildItem -LiteralPath $target -File | Where-Object { $_.Extension -in '.html','.mjs','.css','.cjs' } |
+    Where-Object { $_.Name -ne 'package.json' } | Remove-Item -Force
 foreach ($file in $files) { Copy-Item -LiteralPath (Join-Path $root $file) -Destination (Join-Path $target $file) -Force }
+
 foreach ($folder in @('icons','portraits','assets')) {
     $destination = Join-Path $target $folder
     New-Item -ItemType Directory -Force -Path $destination | Out-Null

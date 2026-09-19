@@ -4,7 +4,7 @@ A playable, English-language record label strategy game for 2–4 labels. The so
 
 **[⬇ Download the Windows build](https://github.com/NoahIsARider/ICONS/releases/latest)** — unzip it and run `RecordLabelRivals.exe`. No installer, no Node.js, nothing to compile.
 
-The two DLCs are available in this source tree. Rebuild the desktop app to include them in a Windows executable; an earlier GitHub release will not update automatically.
+Both expansions ship inside the download below and open from the title screen. The same tree also builds them yourself: `./build-desktop.ps1` stages the runtime files for packaging.
 
 ## Screenshots
 
@@ -28,9 +28,9 @@ Every icon and portrait is generated for the game. The 27 icons are individual 5
 
 ## Expansions
 
-Two expansions are finished in this source tree and open from the title screen. Neither is inside
-the v1.0.0 download yet, so rebuild the desktop app (`./build-desktop.ps1`) to get them in an
-executable.
+Two expansions ship inside the download and open from the title screen. They reuse the engine
+rather than forking it, so every rule and every measurement in the docs applies to all three
+editions.
 
 ### Actor Agency Rivals
 
