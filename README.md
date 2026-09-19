@@ -36,6 +36,9 @@ and measured rather than guessed at:
   a computer can bid for a lot, and which habits are load-bearing.
 - **[docs/BALANCE.md](docs/BALANCE.md)** — the audit behind it, including the one fairness flaw it
   turned up (the first seat wins about twice its fair share) and the verified fix.
+- **[docs/DLC-ASSETS.md](docs/DLC-ASSETS.md)** — the two planned expansions (an acting-agency
+  season and a group-debut stage season) and the complete artwork shopping list for them: every
+  medallion, every portrait, every background, with the prompt for each sheet.
 
 All three are reproducible: `node tools/strategy-lab.mjs all 400` replays every experiment against
 the engine, so a rules change can be re-measured instead of argued about.
@@ -88,7 +91,7 @@ Use the **I'M READY** screen when passing the device to another human player. Au
 - `tools/desktop-validate.py`: launches a packaged build and verifies the standalone save channel.
 - `tools/strategy-lab.mjs`: the seeded-game experiments behind `docs/STRATEGY.md` and `docs/BALANCE.md`.
 - `tools/capture-screenshots.py`, `tools/build-art-sheets.py`: regenerate the images in `screenshots/`.
-- `docs/REFERENCE.md`, `docs/STRATEGY.md`, `docs/BALANCE.md`: every element, what wins, and fairness.
+- `docs/REFERENCE.md`, `docs/STRATEGY.md`, `docs/BALANCE.md`, `docs/DLC-ASSETS.md`: every element, what wins, fairness, and the expansion artwork list.
 - `icons/`: 27 individual 512 × 512 transparent PNGs.
 - `portraits/`, `assets/`: artist portraits and table artwork.
 - `screenshots/`: the gallery above, captured from the packaged build.
